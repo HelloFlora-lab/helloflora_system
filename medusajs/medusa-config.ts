@@ -26,6 +26,8 @@ loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 module.exports = defineConfig({
   admin: {
     backendUrl: BACKEND_URL,
+    path: "/app",
+    disable: SHOULD_DISABLE_ADMIN,
    },
   projectConfig: {
     databaseUrl: DATABASE_URL,
