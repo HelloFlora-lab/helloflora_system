@@ -59,7 +59,10 @@ module.exports = defineConfig({
          url: REDIS_URL,
         }
        }
-    }
+    },
+     {
+      resolve: "./src/modules/product-review"
+    },
 
    ],
 })
