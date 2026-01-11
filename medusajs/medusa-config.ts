@@ -1,41 +1,62 @@
 import { loadEnv, defineConfig } from '@medusajs/framework/utils'
 
+import {
+  ADMIN_CORS,
+  AUTH_CORS,
+  BACKEND_URL,
+  COOKIE_SECRET,
+  DATABASE_URL,
+  JWT_SECRET,
+  REDIS_URL,
+  SENDGRID_API_KEY,
+  SENDGRID_FROM_EMAIL,
+  SHOULD_DISABLE_ADMIN,
+  STORE_CORS,
+  STRIPE_API_KEY,
+  STRIPE_WEBHOOK_SECRET,
+  WORKER_MODE,
+  MINIO_ENDPOINT,
+  MINIO_ACCESS_KEY,
+  MINIO_SECRET_KEY,
+  MINIO_BUCKET
+} from './src/lib/constants';
+
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
 module.exports = defineConfig({
   admin: {
-    backendUrl: process.env.BACKEND_URL,
+    backendUrl: BACKEND_URL,
    },
   projectConfig: {
-    databaseUrl: process.env.DATABASE_URL,
-    workerMode: process.env.MEDUSA_WORKER_MODE as "shared" | "worker" | "server",
-    redisUrl: process.env.REDIS_URL,
+    databaseUrl: DATABASE_URL,
+    workerMode: WORKER_MODE,
+    redisUrl: REDIS_URL,
     http: {
-      storeCors: process.env.STORE_CORS!,
-      adminCors: process.env.ADMIN_CORS!,
-      authCors: process.env.AUTH_CORS!,
-      jwtSecret: process.env.JWT_SECRET || "supersecret",
-      cookieSecret: process.env.COOKIE_SECRET || "supersecret",
+      storeCors: STORE_CORS!,
+      adminCors: ADMIN_CORS!,
+      authCors: AUTH_CORS!,
+      jwtSecret: JWT_SECRET || "supersecret",
+      cookieSecret: COOKIE_SECRET || "supersecret",
     }
   },
    modules: [
     {
        resolve: "@medusajs/medusa/cache-redis",
        options: {
-        redisUrl: process.env.REDIS_URL,
+        redisUrl: REDIS_URL,
        },
       },
       {
        resolve: "@medusajs/medusa/event-bus-redis",
        options: {
-        redisUrl: process.env.REDIS_URL,
+        redisUrl: REDIS_URL,
        }
       },
       {
        resolve: "@medusajs/medusa/workflow-engine-redis",
        options: {
         redis: {
-         url: process.env.REDIS_URL,
+         url: REDIS_URL,
         }
        }
     }
