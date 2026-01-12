@@ -18,7 +18,20 @@ const ShippingAddress = ({
   checked: boolean
   onChange: () => void
 }) => {
-  const [formData, setFormData] = useState<Record<string, any>>({})
+
+  
+  const [formData, setFormData] = useState<Record<string, any>>({
+    "shipping_address.first_name": cart?.shipping_address?.first_name || "",
+    "shipping_address.last_name": cart?.shipping_address?.last_name || "",
+    "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
+    "shipping_address.company": cart?.shipping_address?.company || "",
+    "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
+    "shipping_address.city": cart?.shipping_address?.city || "",
+    "shipping_address.country_code": cart?.shipping_address?.country_code || "",
+    "shipping_address.province": cart?.shipping_address?.province || "",
+    "shipping_address.phone": cart?.shipping_address?.phone || "",
+    email: cart?.email || "",
+  })
 
   const countriesInRegion = useMemo(
     () => cart?.region?.countries?.map((c) => c.iso_2),
@@ -168,13 +181,12 @@ const ShippingAddress = ({
           autoComplete="address-level1"
           value={formData["shipping_address.province"]}
           onChange={handleChange}
-          required
           data-testid="shipping-province-input"
         />
       </div>
       <div className="my-8">
         <Checkbox
-          label="Billing address same as shipping address"
+          label="Indirizzo di fatturazione uguale a indirizzo di consegna"
           name="same_as_billing"
           checked={checked}
           onChange={onChange}
@@ -199,6 +211,7 @@ const ShippingAddress = ({
           autoComplete="tel"
           value={formData["shipping_address.phone"]}
           onChange={handleChange}
+          required
           data-testid="shipping-phone-input"
         />
       </div>

@@ -1,12 +1,10 @@
 "use client"
 
-import { Badge, Heading, Input, Label, Text, Tooltip } from "@medusajs/ui"
+import { Badge, Heading, Input, Label, Text } from "@medusajs/ui"
 import React from "react"
-import { useFormState } from "react-dom"
 
-import { applyPromotions, submitPromotionForm } from "@lib/data/cart"
+import { applyPromotions } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
-import { InformationCircleSolid } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import Trash from "@modules/common/icons/trash"
 import ErrorMessage from "../error-message"
@@ -19,51 +17,56 @@ type DiscountCodeProps = {
 }
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(true)
+  const [errorMessage, setErrorMessage] = React.useState("")
 
-  const { items = [], promotions = [] } = cart
+  const { promotions = [] } = cart
   const removePromotionCode = async (code: string) => {
     const validPromotions = promotions.filter(
       (promotion) => promotion.code !== code
     )
 
     await applyPromotions(
-      validPromotions.filter((p) => p.code === undefined).map((p) => p.code!)
+      validPromotions.filter((p) => p.code !== undefined).map((p) => p.code!)
     )
   }
 
   const addPromotionCode = async (formData: FormData) => {
+    setErrorMessage("")
+
     const code = formData.get("code")
     if (!code) {
       return
     }
     const input = document.getElementById("promotion-input") as HTMLInputElement
     const codes = promotions
-      .filter((p) => p.code === undefined)
+      .filter((p) => p.code !== undefined)
       .map((p) => p.code!)
     codes.push(code.toString())
 
-    await applyPromotions(codes)
+    try {
+      await applyPromotions(codes)
+    } catch (e: any) {
+      setErrorMessage(e.message)
+    }
 
     if (input) {
       input.value = ""
     }
   }
 
-  const [message, formAction] = useFormState(submitPromotionForm, null)
-
   return (
     <div className="w-full bg-white flex flex-col">
       <div className="txt-medium">
         <form action={(a) => addPromotionCode(a)} className="w-full mb-5">
-          <Label className="flex gap-x-1 my-2 items-center">
+          <Label className="flex gap-x-1 my-2 items-center hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
               className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="add-discount-button"
             >
-              Add Promotion Code(s)
+              Inserisci codice promozionale
             </button>
 
             {/* <Tooltip content="You can add multiple promotion codes">
@@ -73,25 +76,30 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
           {isOpen && (
             <>
-              <div className="flex w-full gap-x-2">
+              <div className="flex w-full gap-x-4">
                 <Input
                   className="size-full"
                   id="promotion-input"
                   name="code"
                   type="text"
+                  placeholder="Codice sconto"
                   autoFocus={false}
                   data-testid="discount-input"
                 />
                 <SubmitButton
-                  variant="secondary"
                   data-testid="discount-apply-button"
+                   className="inline-flex shadow-none items-center rounded-full border border-white/30 bg-theme-accent hover:bg-theme-secondary-light px-5 py-3 text-center text-base font-medium text-white transition-colors"
                 >
-                  Apply
+                  Applica
                 </SubmitButton>
+                
+              </div>
+              <div className="text-small-regular mt-1">
+                  Se hai un <strong>codice sconto</strong>, inseriscilo qui.
               </div>
 
               <ErrorMessage
-                error={message}
+                error={errorMessage}
                 data-testid="discount-error-message"
               />
             </>
@@ -102,7 +110,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
           <div className="w-full flex items-center">
             <div className="flex flex-col w-full">
               <Heading className="txt-medium mb-2">
-                Promotion(s) applied:
+                Codice sconto applicato:
               </Heading>
 
               {promotions.map((promotion) => {
@@ -146,7 +154,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                     </Text>
                     {!promotion.is_automatic && (
                       <button
-                        className="flex items-center"
+                        className="flex items-center shadow-none items-center rounded-full border border-white/30 bg-theme-accent hover:bg-theme-secondary-light px-5 py-3 text-center text-base font-medium text-white transition-colors"
                         onClick={() => {
                           if (!promotion.code) {
                             return
@@ -158,7 +166,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                       >
                         <Trash size={14} />
                         <span className="sr-only">
-                          Remove discount code from order
+                          Rimuovi codice sconto dall'ordine
                         </span>
                       </button>
                     )}

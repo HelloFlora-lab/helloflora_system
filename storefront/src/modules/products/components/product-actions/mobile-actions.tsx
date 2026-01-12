@@ -9,6 +9,7 @@ import X from "@modules/common/icons/x"
 import { getProductPrice } from "@lib/util/get-product-price"
 import OptionSelect from "./option-select"
 import { HttpTypes } from "@medusajs/types"
+import { isSimpleProduct } from "@lib/util/product"
 
 type MobileActionsProps = {
   product: HttpTypes.StoreProduct
@@ -48,6 +49,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
 
     return variantPrice || cheapestPrice || null
   }, [price])
+
+  const isSimple = isSimpleProduct(product)
 
   return (
     <>
@@ -95,8 +98,10 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 <div></div>
               )}
             </div>
-            <div className="grid grid-cols-2 w-full gap-x-4">
-              <Button
+            <div className={clx("grid grid-cols-2 w-full gap-x-4", {
+              "!grid-cols-1": isSimple
+            })}>
+              {!isSimple && <Button
                 onClick={open}
                 variant="secondary"
                 className="w-full"
@@ -106,23 +111,23 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   <span>
                     {variant
                       ? Object.values(options).join(" / ")
-                      : "Select Options"}
+                      : "Seleziona opzioni"}
                   </span>
                   <ChevronDown />
                 </div>
-              </Button>
+              </Button>}
               <Button
                 onClick={handleAddToCart}
                 disabled={!inStock || !variant}
-                className="w-full"
+                className="w-full inline-flex shadow-none items-center justify-center rounded-2xl border border-transparent bg-theme-main hover:bg-theme-accent px-7 py-3 text-center text-base font-medium text-white hover:text-white"
                 isLoading={isAdding}
                 data-testid="mobile-cart-button"
               >
                 {!variant
-                  ? "Select variant"
+                  ? "Seleziona variante"
                   : !inStock
-                  ? "Out of stock"
-                  : "Add to cart"}
+                  ? "Non disponibile"
+                  : "Acquista ora"}
               </Button>
             </div>
           </div>
@@ -174,7 +179,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                             <div key={option.id}>
                               <OptionSelect
                                 option={option}
-                                current={options[option.title ?? ""]}
+                                current={options[option.id]}
                                 updateOption={updateOptions}
                                 title={option.title ?? ""}
                                 disabled={optionsDisabled}

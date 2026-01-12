@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useEffect } from "react"
-import { useFormState } from "react-dom"
+import React, { useEffect, useActionState } from "react";
 
 import Input from "@modules/common/components/input"
 
@@ -33,7 +32,7 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
     }
   }
 
-  const [state, formAction] = useFormState(updateCustomerName, {
+  const [state, formAction] = useActionState(updateCustomerName, {
     error: false,
     success: false,
   })
@@ -49,23 +48,23 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
   return (
     <form action={formAction} className="w-full overflow-visible">
       <AccountInfo
-        label="Name"
+        label="Nome completo"
         currentInfo={`${customer.first_name} ${customer.last_name}`}
         isSuccess={successState}
         isError={!!state?.error}
         clearState={clearState}
         data-testid="account-name-editor"
       >
-        <div className="grid grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-2 gap-x-4 justify-start">
           <Input
-            label="First name"
+            label="Nome"
             name="first_name"
             required
             defaultValue={customer.first_name ?? ""}
             data-testid="first-name-input"
           />
           <Input
-            label="Last name"
+            label="Cognome"
             name="last_name"
             required
             defaultValue={customer.last_name ?? ""}

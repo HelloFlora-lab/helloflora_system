@@ -46,7 +46,7 @@ const AccountInfo = ({
       <div className="flex items-end justify-between">
         <div className="flex flex-col">
           <span className="uppercase text-ui-fg-base">{label}</span>
-          <div className="flex items-center flex-1 basis-0 justify-end gap-x-4">
+          <div className="flex items-center flex-1 basis-0 justify-start gap-x-4">
             {typeof currentInfo === "string" ? (
               <span className="font-semibold" data-testid="current-info">{currentInfo}</span>
             ) : (
@@ -57,13 +57,13 @@ const AccountInfo = ({
         <div>
           <Button
             variant="secondary"
-            className="w-[100px] min-h-[25px] py-1"
+            className="items-center shadow-none justify-center rounded-2xl border border-transparent bg-theme-main hover:bg-theme-accent px-7 py-3 text-center text-base font-medium text-white hover:text-white"
             onClick={handleToggle}
             type={state ? "reset" : "button"}
             data-testid="edit-button"
             data-active={state}
           >
-            {state ? "Cancel" : "Edit"}
+            {state ? "Annulla" : "Modifica"}
           </Button>
         </div>
       </div>
@@ -82,7 +82,7 @@ const AccountInfo = ({
           data-testid="success-message"
         >
           <Badge className="p-2 my-4" color="green">
-            <span>{label} updated succesfully</span>
+            <span>{label} aggiornato con successo</span>
           </Badge>
         </Disclosure.Panel>
       </Disclosure>
@@ -122,11 +122,11 @@ const AccountInfo = ({
             <div className="flex items-center justify-end mt-2">
               <Button
                 isLoading={pending}
-                className="w-full small:max-w-[140px]"
+                className="items-center shadow-none justify-center rounded-2xl border border-transparent bg-theme-accent hover:bg-theme-main px-7 py-3 text-center text-base font-medium text-white hover:text-white"
                 type="submit"
                 data-testid="save-button"
               >
-                Save changes
+                Salva modifiche
               </Button>
             </div>
           </div>

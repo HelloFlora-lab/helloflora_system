@@ -1,33 +1,35 @@
-import { Metadata } from "next"
+import { retrieveCart } from "@lib/data/cart"
+import { retrieveCustomer } from "@lib/data/customer"
 import CartTemplate from "@modules/cart/templates"
-
-import { enrichLineItems, retrieveCart } from "@lib/data/cart"
-import { HttpTypes } from "@medusajs/types"
-import { getCustomer } from "@lib/data/customer"
+import { Metadata } from "next"
+import { notFound } from "next/navigation"
 
 export const metadata: Metadata = {
-  title: "Cart",
-  description: "View your cart",
-}
+  title: "Carrello - HelloFlora",
+  description: "Visualizza il tuo carrello di HelloFlora",
 
-const fetchCart = async () => {
-  const cart = await retrieveCart()
+   robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-snippet': -1,
+    },
+  },
 
-  if (!cart) {
-    return null
-  }
-
-  if (cart?.items?.length) {
-    const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id!)
-    cart.items = enrichedItems as HttpTypes.StoreCartLineItem[]
-  }
-
-  return cart
 }
 
 export default async function Cart() {
-  const cart = await fetchCart()
-  const customer = await getCustomer()
+  const cart = await retrieveCart().catch((error) => {
+    console.error(error)
+    return notFound()
+  })
+
+  const customer = await retrieveCustomer()
 
   return <CartTemplate cart={cart} customer={customer} />
 }
