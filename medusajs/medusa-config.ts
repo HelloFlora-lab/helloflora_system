@@ -18,7 +18,9 @@ import {
   MINIO_ENDPOINT,
   MINIO_ACCESS_KEY,
   MINIO_SECRET_KEY,
-  MINIO_BUCKET
+  MINIO_BUCKET,
+  SLACK_WEBHOOK_URL,
+  SLACK_ADMIN_URL
 } from './src/lib/constants';
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
@@ -109,7 +111,7 @@ module.exports = defineConfig({
               },
             }] : []),
             
-             ...(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL ? [{
+             ...(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL || SLACK_WEBHOOK_URL && SLACK_ADMIN_URL ? [{
                   key: Modules.NOTIFICATION,
                   resolve: '@medusajs/notification',
                   options: {
@@ -123,6 +125,26 @@ module.exports = defineConfig({
                           from: SENDGRID_FROM_EMAIL,
                         }
                       }] : []),
+                      ,
+                      ...(SLACK_WEBHOOK_URL && SLACK_ADMIN_URL ? [{
+                          resolve: './src/modules/slack',
+                          id: 'slack',
+                          options: {
+                            channels: ["slack"],
+                            webhook_url: process.env.SLACK_WEBHOOK_URL,
+                            admin_url: process.env.SLACK_ADMIN_URL
+                            },
+                      }] : []),
+                      ,
+
+                       {resolve: "@medusajs/medusa/notification-local",
+                        id: "local",
+                        options: {
+                          name: "Local Notification Provider",
+                          channels: ["feed"],
+                        },
+                      }
+                                
                     ]
                   }
                 }] : []),

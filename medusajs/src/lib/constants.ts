@@ -78,6 +78,12 @@ export const SENDGRID_FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || process.en
 export const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
+
+
+export const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
+export const SLACK_ADMIN_URL = process.env.SLACK_ADMIN_URL;
+
+
 /**
  * Worker mode
  */
