@@ -29,7 +29,11 @@ const nextConfig = {
         protocol: "https",
         hostname: process.env.NEXT_PUBLIC_MINIO_ENDPOINT,
       }] : []),
-      
+      {
+        protocol: "https",
+        hostname: "lovely-breeze-bdac7ff9c4.media.strapiapp.com",
+        
+      },
     ],
   },
 }
