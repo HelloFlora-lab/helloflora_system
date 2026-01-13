@@ -75,6 +75,15 @@
         }
       }
     },
+    "Tags": {
+      "type": "customField",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "customField": "plugin::tagsinput.tags"
+    },
     "seo": {
       "type": "component",
       "pluginOptions": {
