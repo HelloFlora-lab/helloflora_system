@@ -14,7 +14,6 @@ import {
   setCartId,
 } from "./cookies"
 import { getRegion } from "./regions"
-import { getLocale } from "@lib/data/locale-actions"
 
 /**
  * Retrieves a cart by its ID. If no ID is provided, it will use the cart ID from the cookies.
@@ -23,8 +22,7 @@ import { getLocale } from "@lib/data/locale-actions"
  */
 export async function retrieveCart(cartId?: string, fields?: string) {
   const id = cartId || (await getCartId())
-  fields ??=
-    "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name"
+  fields ??= "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name"
 
   if (!id) {
     return null
@@ -42,7 +40,7 @@ export async function retrieveCart(cartId?: string, fields?: string) {
     .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
       method: "GET",
       query: {
-        fields,
+        fields
       },
       headers,
       next,
@@ -59,16 +57,15 @@ export async function getOrSetCart(countryCode: string) {
     throw new Error(`Region not found for country code: ${countryCode}`)
   }
 
-  let cart = await retrieveCart(undefined, "id,region_id")
+  let cart = await retrieveCart(undefined, 'id,region_id')
 
   const headers = {
     ...(await getAuthHeaders()),
   }
 
   if (!cart) {
-    const locale = await getLocale()
     const cartResp = await sdk.store.cart.create(
-      { region_id: region.id, locale: locale || undefined },
+      { region_id: region.id },
       {},
       headers
     )
@@ -206,7 +203,7 @@ export async function deleteLineItem(lineId: string) {
   }
 
   await sdk.store.cart
-    .deleteLineItem(cartId, lineId, {}, headers)
+    .deleteLineItem(cartId, lineId, headers)
     .then(async () => {
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)
@@ -376,6 +373,116 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
         province: formData.get("billing_address.province"),
         phone: formData.get("billing_address.phone"),
       }
+    await updateCart(data)
+  } catch (e: any) {
+    return e.message
+  }
+
+  redirect(
+    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
+  )
+}
+
+
+export async function setDeliveryAddresses(currentState: unknown, formData: FormData) {
+  try {
+    if (!formData) {
+      throw new Error("No form data found when setting addresses")
+    }
+    const cartId = getCartId()
+    if (!cartId) {
+      throw new Error("No existing cart found when setting addresses")
+    }
+
+    const data = {
+      shipping_address: {
+        //first_name: formData.get("shipping_address.first_name"),
+        //last_name: formData.get("shipping_address.last_name"),
+        address_1: formData.get("shipping_address.address_1"),
+        address_2: "",
+        company: formData.get("shipping_address.company"),
+        postal_code: formData.get("shipping_address.postal_code"),
+        city: formData.get("shipping_address.city"),
+        country_code: formData.get("shipping_address.country_code"),
+        province: formData.get("shipping_address.province"),
+        //phone: formData.get("shipping_address.phone"),
+      },
+      //email: formData.get("email"),
+    } as any
+
+    //const sameAsBilling = formData.get("same_as_billing")
+   // if (sameAsBilling === "on") data.billing_address = data.shipping_address
+
+    /*
+    if (sameAsBilling !== "on")
+      data.billing_address = {
+        first_name: formData.get("billing_address.first_name"),
+        last_name: formData.get("billing_address.last_name"),
+        address_1: formData.get("billing_address.address_1"),
+        address_2: "",
+        company: formData.get("billing_address.company"),
+        postal_code: formData.get("billing_address.postal_code"),
+        city: formData.get("billing_address.city"),
+        country_code: formData.get("billing_address.country_code"),
+        province: formData.get("billing_address.province"),
+        phone: formData.get("billing_address.phone"),
+      }
+        */
+    await updateCart(data)
+  } catch (e: any) {
+    return e.message
+  }
+
+  redirect(
+    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
+  )
+}
+
+
+export async function setDeliveryData(currentState: unknown, formData: FormData) {
+  try {
+    if (!formData) {
+      throw new Error("No form data found when setting addresses")
+    }
+    const cartId = getCartId()
+    if (!cartId) {
+      throw new Error("No existing cart found when setting addresses")
+    }
+
+    const data = {
+      shipping_address: {
+        first_name: formData.get("shipping_address.first_name"),
+        last_name: formData.get("shipping_address.last_name"),
+        //address_1: formData.get("shipping_address.address_1"),
+        //address_2: "",
+        //company: formData.get("shipping_address.company"),
+        //postal_code: formData.get("shipping_address.postal_code"),
+        //city: formData.get("shipping_address.city"),
+       // country_code: formData.get("shipping_address.country_code"),
+       // province: formData.get("shipping_address.province"),
+        phone: formData.get("shipping_address.phone"),
+      },
+      //email: formData.get("email"),
+    } as any
+
+    //const sameAsBilling = formData.get("same_as_billing")
+   // if (sameAsBilling === "on") data.billing_address = data.shipping_address
+
+    /*
+    if (sameAsBilling !== "on")
+      data.billing_address = {
+        first_name: formData.get("billing_address.first_name"),
+        last_name: formData.get("billing_address.last_name"),
+        address_1: formData.get("billing_address.address_1"),
+        address_2: "",
+        company: formData.get("billing_address.company"),
+        postal_code: formData.get("billing_address.postal_code"),
+        city: formData.get("billing_address.city"),
+        country_code: formData.get("billing_address.country_code"),
+        province: formData.get("billing_address.province"),
+        phone: formData.get("billing_address.phone"),
+      }
+        */
     await updateCart(data)
   } catch (e: any) {
     return e.message

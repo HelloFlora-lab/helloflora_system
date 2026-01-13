@@ -16,8 +16,20 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   return {
-    title: `Order #${order.display_id}`,
-    description: `View your order`,
+    title: `Ordine #${order.display_id} - HelloFlora`,
+    description: `Visualizza il tuo ordine HelloFlora`,
+     robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-snippet': -1,
+    },
+  },
   }
 }
 

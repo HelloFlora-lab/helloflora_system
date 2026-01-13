@@ -11,7 +11,10 @@ module.exports = {
     "./node_modules/@medusajs/ui/dist/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
+    
     extend: {
+
+
       transitionProperty: {
         width: "width margin",
         height: "height",
@@ -20,7 +23,13 @@ module.exports = {
         visibility: "visibility",
         padding: "padding-top padding-right padding-bottom padding-left",
       },
+
       colors: {
+        'interactive': 'rgb(var(--bg-theme-accent) / <alpha-value>)',
+        'interactive-hover': 'rgb(var(--bg-theme) / <alpha-value>)',
+
+        primary: '#fff000',
+        secondary: '#b067a1',
         grey: {
           0: "#FFFFFF",
           5: "#F9FAFB",
@@ -34,7 +43,30 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
+        
+
+        spring: '#FFB5DE',
+        winter: '#96A0FF',
+        summer: '#DB304D',
+        autumn: '#EF4A00',
+
+        //TO DO implmentare canale alfa
+        'theme-main': 'hsl(var(--color-main) / <alpha-value>)',
+        'theme-accent': 'hsl(var(--color-accent) / <alpha-value>)',
+        
+        'theme-secondary': 'hsl(var(--color-secondary) / <alpha-value>)',
+        'theme-secondary-light': 'hsl(var(--color-secondary-light) / <alpha-value>)',
+
+        'theme-text-base': 'hsl(var(--color-text-base) / <alpha-value>)',
+        'theme-text-accent': 'hsl(var(--color-text-accent) / <alpha-value>)',
+        'theme-text-accent-light': 'hsl(var(--color-text-accent-light) / <alpha-value>)',
+
+        'theme-background': 'hsl(var(--color-background) / <alpha-value>)',
+        
+        'star-color': 'hsl(var(--color-star-filled) / <alpha-value>)',
+
       },
+
       borderRadius: {
         none: "0px",
         soft: "2px",
@@ -56,8 +88,15 @@ module.exports = {
         "2xlarge": "1920px",
       },
       fontSize: {
+
+        "base": "1rem",
+        "lg": "1.125rem",
+        "xl": "1.25rem",
+        "2xl": "1.5rem",
         "3xl": "2rem",
+        "4xl": "2.5rem",
       },
+      //Abril Fatface (titoloni) + Inter (sottotitoli, testi).
       fontFamily: {
         sans: [
           "Inter",
@@ -69,6 +108,8 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
+        // Definisci un nuovo alias per il tuo font
+        'display': ['"Abril Fatface"', 'serif'], 
       },
       keyframes: {
         ring: {
@@ -158,5 +199,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-radix")()],
+  plugins: [
+    require("tailgrids/plugin")],
 }

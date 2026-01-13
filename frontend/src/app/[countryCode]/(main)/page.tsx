@@ -1,14 +1,21 @@
 import { Metadata } from "next"
 
-import FeaturedProducts from "@modules/home/components/featured-products"
-import Hero from "@modules/home/components/hero"
+import FeaturedProducts from "@modules/products/components/featured-products"
+import Hero from "@modules/hero"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
+import HomeReview from "@modules/customer-review/home-review"
+import DeliveryCheck from "@modules/delivery-check"
+import NewsletterCTA from "@modules/layout/components/newsletter-cta"
+import FAQAccordion from "@modules/faq"
+
+import FeaturesDisplay from "@modules/features-display"
+
 
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
+  title: "HelloFlora Fiori freschi e bouquet per ogni occasione",
   description:
-    "A performant frontend ecommerce starter template with Next.js 15 and Medusa.",
+    "HelloFlora: Acquista online fiori freschi e ricevili a domicilio in poche ore! Il tuo fioraio online di fiducia per ogni occasione. Consegna rapida e fiori di alta qualità.",
 }
 
 export default async function Home(props: {
@@ -31,11 +38,13 @@ export default async function Home(props: {
   return (
     <>
       <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
+      <DeliveryCheck />
+      <FeaturedProducts collections={collections} region={region} />
+      <FeaturesDisplay />
+      <HomeReview />
+      <FAQAccordion />  
+      <NewsletterCTA />
+      
     </>
   )
 }

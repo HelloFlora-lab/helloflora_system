@@ -5,8 +5,22 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 export const metadata: Metadata = {
-  title: "Cart",
-  description: "View your cart",
+  title: "Carrello - HelloFlora",
+  description: "Visualizza il tuo carrello di HelloFlora",
+
+   robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-snippet': -1,
+    },
+  },
+
 }
 
 export default async function Cart() {

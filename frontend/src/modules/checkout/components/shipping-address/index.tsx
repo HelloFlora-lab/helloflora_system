@@ -18,6 +18,8 @@ const ShippingAddress = ({
   checked: boolean
   onChange: () => void
 }) => {
+
+  
   const [formData, setFormData] = useState<Record<string, any>>({
     "shipping_address.first_name": cart?.shipping_address?.first_name || "",
     "shipping_address.last_name": cart?.shipping_address?.last_name || "",
@@ -184,7 +186,7 @@ const ShippingAddress = ({
       </div>
       <div className="my-8">
         <Checkbox
-          label="Billing address same as shipping address"
+          label="Indirizzo di fatturazione uguale a indirizzo di consegna"
           name="same_as_billing"
           checked={checked}
           onChange={onChange}
@@ -209,6 +211,7 @@ const ShippingAddress = ({
           autoComplete="tel"
           value={formData["shipping_address.phone"]}
           onChange={handleChange}
+          required
           data-testid="shipping-phone-input"
         />
       </div>

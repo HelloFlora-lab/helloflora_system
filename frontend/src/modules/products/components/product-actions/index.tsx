@@ -7,7 +7,7 @@ import { Button } from "@medusajs/ui"
 import Divider from "@modules/common/components/divider"
 import OptionSelect from "@modules/products/components/product-actions/option-select"
 import { isEqual } from "lodash"
-import { useParams, usePathname, useSearchParams } from "next/navigation"
+import { useParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import ProductPrice from "../product-price"
 import MobileActions from "./mobile-actions"
@@ -17,6 +17,7 @@ type ProductActionsProps = {
   product: HttpTypes.StoreProduct
   region: HttpTypes.StoreRegion
   disabled?: boolean
+  onVariantChange: (variant: HttpTypes.StoreProductVariant) => void
 }
 
 const optionsAsKeymap = (
@@ -31,24 +32,28 @@ const optionsAsKeymap = (
 export default function ProductActions({
   product,
   disabled,
+  onVariantChange
 }: ProductActionsProps) {
+
   const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
 
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
+  
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
 
-  // If there is only 1 variant, preselect the options
+  
+  //preselect the options
   useEffect(() => {
-    if (product.variants?.length === 1) {
+    if (product.variants && product.variants.length >= 1) {
       const variantOptions = optionsAsKeymap(product.variants[0].options)
       setOptions(variantOptions ?? {})
     }
   }, [product.variants])
 
+
   const selectedVariant = useMemo(() => {
+
     if (!product.variants || product.variants.length === 0) {
       return
     }
@@ -58,6 +63,15 @@ export default function ProductActions({
       return isEqual(variantOptions, options)
     })
   }, [product.variants, options])
+
+  // Questo effetto viene eseguito ogni volta che la variante selezionata cambia.
+  // Notifica il componente genitore (ProductClientWrapper) della nuova variante.
+  useEffect(() => {
+    if (selectedVariant) {
+      onVariantChange(selectedVariant)
+    }
+  }, [selectedVariant, onVariantChange])
+
 
   // update the options when a variant is selected
   const setOptionValue = (optionId: string, value: string) => {
@@ -74,23 +88,6 @@ export default function ProductActions({
       return isEqual(variantOptions, options)
     })
   }, [product.variants, options])
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString())
-    const value = isValidVariant ? selectedVariant?.id : null
-
-    if (params.get("v_id") === value) {
-      return
-    }
-
-    if (value) {
-      params.set("v_id", value)
-    } else {
-      params.delete("v_id")
-    }
-
-    router.replace(pathname + "?" + params.toString())
-  }, [selectedVariant, isValidVariant])
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
@@ -133,15 +130,24 @@ export default function ProductActions({
     })
 
     setIsAdding(false)
+
+    // Vai alla pagina Cart
+    router.push("/cart")
   }
 
   return (
     <>
       <div className="flex flex-col gap-y-2" ref={actionsRef}>
+
+        <ProductPrice product={product} variant={selectedVariant} />
+          <Divider />
         <div>
           {(product.variants?.length ?? 0) > 1 && (
+            
             <div className="flex flex-col gap-y-4">
+              
               {(product.options || []).map((option) => {
+               
                 return (
                   <div key={option.id}>
                     <OptionSelect
@@ -160,8 +166,6 @@ export default function ProductActions({
           )}
         </div>
 
-        <ProductPrice product={product} variant={selectedVariant} />
-
         <Button
           onClick={handleAddToCart}
           disabled={
@@ -171,17 +175,14 @@ export default function ProductActions({
             isAdding ||
             !isValidVariant
           }
-          variant="primary"
-          className="w-full h-10"
+          className="w-full items-center shadow-none justify-center rounded-2xl border border-transparent bg-theme-main hover:bg-theme-accent px-7 py-3 text-center text-base font-medium text-white hover:text-white"
           isLoading={isAdding}
           data-testid="add-product-button"
+          title="Clicca Acquista ora per procedere con l'acquisto"
         >
-          {!selectedVariant && !options
-            ? "Select variant"
-            : !inStock || !isValidVariant
-            ? "Out of stock"
-            : "Add to cart"}
+          {!selectedVariant ? "Seleziona variante" : "Acquista ora"}
         </Button>
+        
         <MobileActions
           product={product}
           variant={selectedVariant}

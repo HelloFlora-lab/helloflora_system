@@ -11,8 +11,21 @@ import { listRegions } from "@lib/data/regions"
 import { retrieveCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
-  title: "Profile",
-  description: "View and edit your Medusa Store profile.",
+  title: "Profilo utente - HelloFlora",
+  description: "Gestisci e aggiorna tutti i tuoi dati personali, l'indirizzo di fatturazione e le impostazioni di sicurezza del tuo account: modifica la password e l'email.",
+   robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-snippet': -1,
+    },
+  },
+
 }
 
 export default async function Profile() {
@@ -26,11 +39,9 @@ export default async function Profile() {
   return (
     <div className="w-full" data-testid="profile-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">Profile</h1>
+        <h1 className="text-2xl-semi">Profilo</h1>
         <p className="text-base-regular">
-          View and update your profile information, including your name, email,
-          and phone number. You can also update your billing address, or change
-          your password.
+         Visualizza e aggiorna le informazioni del tuo profilo, inclusi nome, email e numero di telefono. Puoi anche aggiornare il tuo indirizzo di fatturazione o cambiare la tua password.
         </p>
       </div>
       <div className="flex flex-col gap-y-8 w-full">

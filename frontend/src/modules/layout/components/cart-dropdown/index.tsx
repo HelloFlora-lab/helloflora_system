@@ -8,11 +8,12 @@ import {
 } from "@headlessui/react"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
-import { Button } from "@medusajs/ui"
+import { Button, Text } from "@medusajs/ui"
 import DeleteButton from "@modules/common/components/delete-button"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import Basket from "@modules/common/icons/basket"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
@@ -85,7 +86,15 @@ const CartDropdown = ({
             className="hover:text-ui-fg-base"
             href="/cart"
             data-testid="nav-cart-link"
-          >{`Cart (${totalItems})`}</LocalizedClientLink>
+          >
+            <span className="relative mr-5 flex items-center justify-center">
+                        <Basket width={26} height={26} className="text-theme-secondary hover:text-theme-secondary-light" />
+                        <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-theme-main text-[10px] font-semibold text-white">
+                            {totalItems}
+                        </span>
+                    </span>
+            
+          </LocalizedClientLink>
         </PopoverButton>
         <Transition
           show={cartDropdownOpen}
@@ -102,8 +111,11 @@ const CartDropdown = ({
             className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[420px] text-ui-fg-base"
             data-testid="nav-cart-dropdown"
           >
-            <div className="p-4 flex items-center justify-center">
-              <h3 className="text-large-semi">Cart</h3>
+            <div className="p-4 flex items-center justify-center text-justify">
+              <Text className="text-xl-semi text-justify">
+                Carrello 
+              </Text>
+              <Basket width={32} height={32} className="text-theme-main"  />
             </div>
             {cartState && cartState.items?.length ? (
               <>
@@ -151,7 +163,7 @@ const CartDropdown = ({
                                   data-testid="cart-item-quantity"
                                   data-value={item.quantity}
                                 >
-                                  Quantity: {item.quantity}
+                                  Quantità: {item.quantity}
                                 </span>
                               </div>
                               <div className="flex justify-end">
@@ -168,7 +180,7 @@ const CartDropdown = ({
                             className="mt-1"
                             data-testid="cart-item-remove-button"
                           >
-                            Remove
+                            Rimuovi
                           </DeleteButton>
                         </div>
                       </div>
@@ -177,8 +189,8 @@ const CartDropdown = ({
                 <div className="p-4 flex flex-col gap-y-4 text-small-regular">
                   <div className="flex items-center justify-between">
                     <span className="text-ui-fg-base font-semibold">
-                      Subtotal{" "}
-                      <span className="font-normal">(excl. taxes)</span>
+                      Subtotale{" "}
+                      <span className="font-normal">(escl. tasse)</span>
                     </span>
                     <span
                       className="text-large-semi"
@@ -193,11 +205,11 @@ const CartDropdown = ({
                   </div>
                   <LocalizedClientLink href="/cart" passHref>
                     <Button
-                      className="w-full"
+                      className="w-full shadow-none rounded-2xl border-transparent bg-theme-accent hover:bg-theme-secondary text-white"
                       size="large"
                       data-testid="go-to-cart-button"
                     >
-                      Go to cart
+                      Vai al carrello
                     </Button>
                   </LocalizedClientLink>
                 </div>
@@ -205,15 +217,15 @@ const CartDropdown = ({
             ) : (
               <div>
                 <div className="flex py-16 flex-col gap-y-4 items-center justify-center">
-                  <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
+                  <div className="bg-theme-main text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
                     <span>0</span>
                   </div>
-                  <span>Your shopping bag is empty.</span>
+                  <span>Il tuo carrello è vuoto.</span>
                   <div>
                     <LocalizedClientLink href="/store">
                       <>
-                        <span className="sr-only">Go to all products page</span>
-                        <Button onClick={close}>Explore products</Button>
+                        <span className="sr-only">Vai alla pagina di tutti i prodotti</span>
+                        <Button onClick={close} className="items-center justify-center rounded-md border border-transparent bg-theme-accent text-white hover:bg-theme-secondary">Esplora prodotti</Button>
                       </>
                     </LocalizedClientLink>
                   </div>

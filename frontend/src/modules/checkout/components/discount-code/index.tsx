@@ -17,7 +17,7 @@ type DiscountCodeProps = {
 }
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(true)
   const [errorMessage, setErrorMessage] = React.useState("")
 
   const { promotions = [] } = cart
@@ -59,14 +59,14 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
     <div className="w-full bg-white flex flex-col">
       <div className="txt-medium">
         <form action={(a) => addPromotionCode(a)} className="w-full mb-5">
-          <Label className="flex gap-x-1 my-2 items-center">
+          <Label className="flex gap-x-1 my-2 items-center hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
               className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="add-discount-button"
             >
-              Add Promotion Code(s)
+              Inserisci codice promozionale
             </button>
 
             {/* <Tooltip content="You can add multiple promotion codes">
@@ -76,21 +76,26 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
           {isOpen && (
             <>
-              <div className="flex w-full gap-x-2">
+              <div className="flex w-full gap-x-4">
                 <Input
                   className="size-full"
                   id="promotion-input"
                   name="code"
                   type="text"
+                  placeholder="Codice sconto"
                   autoFocus={false}
                   data-testid="discount-input"
                 />
                 <SubmitButton
-                  variant="secondary"
                   data-testid="discount-apply-button"
+                   className="inline-flex shadow-none items-center rounded-full border border-white/30 bg-theme-accent hover:bg-theme-secondary-light px-5 py-3 text-center text-base font-medium text-white transition-colors"
                 >
-                  Apply
+                  Applica
                 </SubmitButton>
+                
+              </div>
+              <div className="text-small-regular mt-1">
+                  Se hai un <strong>codice sconto</strong>, inseriscilo qui.
               </div>
 
               <ErrorMessage
@@ -105,7 +110,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
           <div className="w-full flex items-center">
             <div className="flex flex-col w-full">
               <Heading className="txt-medium mb-2">
-                Promotion(s) applied:
+                Codice sconto applicato:
               </Heading>
 
               {promotions.map((promotion) => {
@@ -132,7 +137,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                               "percentage"
                                 ? `${promotion.application_method.value}%`
                                 : convertToLocale({
-                                    amount: +promotion.application_method.value,
+                                    amount: promotion.application_method.value,
                                     currency_code:
                                       promotion.application_method
                                         .currency_code,
@@ -149,7 +154,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                     </Text>
                     {!promotion.is_automatic && (
                       <button
-                        className="flex items-center"
+                        className="flex items-center shadow-none items-center rounded-full border border-white/30 bg-theme-accent hover:bg-theme-secondary-light px-5 py-3 text-center text-base font-medium text-white transition-colors"
                         onClick={() => {
                           if (!promotion.code) {
                             return
@@ -161,7 +166,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                       >
                         <Trash size={14} />
                         <span className="sr-only">
-                          Remove discount code from order
+                          Rimuovi codice sconto dall'ordine
                         </span>
                       </button>
                     )}

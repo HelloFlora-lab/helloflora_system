@@ -22,3 +22,39 @@ export type StoreFreeShippingPrice = StorePrice & {
   target_remaining: number
   remaining_percentage: number
 }
+
+export type StoreProductReview = {
+  id: string
+  title: string
+  rating: number
+  content: string
+  first_name: string
+  last_name: string
+  created_at: Date
+}
+
+export type StoreReview = {
+  id: string
+  title: string
+  rating: number
+  content: string
+  first_name: string
+  last_name: string
+  created_at: Date
+}
+
+
+export type FloristDetails = {
+  name: string
+  address: string
+  distanceKm?: number
+  
+}
+
+export type StoreFlorist = {
+  message: string
+  distance: number
+  color: string
+  //florists: FloristDetails[]
+  
+}

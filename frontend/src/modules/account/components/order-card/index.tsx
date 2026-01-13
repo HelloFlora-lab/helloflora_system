@@ -69,14 +69,14 @@ const OrderCard = ({ order }: OrderCardProps) => {
             <span className="text-small-regular text-ui-fg-base">
               + {numberOfLines - 4}
             </span>
-            <span className="text-small-regular text-ui-fg-base">more</span>
+            <span className="text-small-regular text-ui-fg-base">altro</span>
           </div>
         )}
       </div>
       <div className="flex justify-end">
         <LocalizedClientLink href={`/account/orders/details/${order.id}`}>
-          <Button data-testid="order-details-link" variant="secondary">
-            See details
+          <Button data-testid="order-details-link" variant="secondary" className="items-center shadow-none rounded-2xl border border-transparent bg-theme-accent hover:bg-theme-main px-7 py-3 text-center text-base font-medium text-white hover:text-white">
+            Vedi dettagli
           </Button>
         </LocalizedClientLink>
       </div>

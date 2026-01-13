@@ -1,6 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+
+:root {
+  --button-inverted: rgba(15, 68, 150, 1);
+  --button-inverted-pressed: rgba(82, 82, 91, 1);
+  --button-inverted-hover: rgba(229, 0, 114, 1);
+
+  --button-neutral: rgba(229, 0, 114, 1);
+  --button-neutral-hover: rgba(244, 244, 245, 1);
+  --button-neutral-pressed: rgba(228, 228, 231, 1);
+
+  --button-transparent-hover: rgba(244, 244, 245, 1);
+
+
+  --background: #FFFFFF;
+  --background-dark: #121212;
+
+  --summer: 353 100% 75%;
+  --spring: 327 97% 85%;
+  --autumn: 24 100% 70%;
+  --winter: 234 100% 79%;
+
+  /* default theme styles go here */
+}
+
+[data-theme="default"] {
+
+  --color-main: 327 97% 85%;
+  --color-accent:  336 79% 54%;
+  
+  --color-secondary:  176 79% 65%;
+  --color-secondary-light:  28 97% 88%;
+
+  --color-text-accent:  243 64% 37%;
+  --color-text-accent-light:  244 65% 49%;
+  --color-text-base:  0 0% 40%;
+  
+  --color-background:  0 0% 100%;
+
+  --theme-logo-main-url: url('/images/logo/logo-main_spring.png');
+  --theme-logo-footer-url: url('/images/logo/logo-footer_spring.png');
+
+  --color-star-filled: 47 85% 54%;
+
+}
+
+
+[data-theme="spring"] {
+
+  --color-main: 327 97% 85%;
+  --color-accent:  336 79% 54%;
+
+  --color-secondary:  176 79% 65%;
+  --color-secondary-light:  163 71% 84%;
+
+  --color-text-accent:  243 64% 37%;
+  --color-text-accent-light:  244 65% 49%;
+  --color-text-base:  0 0% 40%;
+  
+  --color-background:  0 0% 100%;
+
+  --theme-logo-main-url: url('/images/logo/logo-main_spring.png');
+  --theme-logo-footer-url: url('/images/logo/logo-footer_spring.png');
+  
+  --color-star-filled: 47 85% 54%;
+
+}
+
+
+[data-theme="winter"] {
+    
+
+  --color-main: 234 100% 79%;
+  --color-accent:  340 100% 76%;
+  --color-secondary:  194 82% 63%;
+  --color-secondary-light:  194 82% 85%;
+
+  --color-text-accent:  237 41% 27%;
+  --color-text-accent-light:  237 51% 55%;
+  --color-text-base:  0 0% 40%;
+  
+  --color-background:  0 0% 100%;
+
+  --theme-logo-main-url: url('/images/logo/logo-main_winter.png');
+  --theme-logo-footer-url: url('/images/logo/logo-footer_winter.png');
+
+  --color-star-filled: 47 85% 54%;
+
+
+}
+
+[data-theme="summer"] {
+
+  --color-main: 353 100% 75%;
+  --color-accent:  350 70% 52%;
+  --color-secondary: 0 85% 65%;
+  --color-secondary-light: 1 85% 81%;
+
+  --color-text-accent:  217 100% 12%;
+  --color-text-accent-light:  217 100% 23%;
+  --color-text-base:  216 0% 40%;
+  
+  --color-background:  0 0% 100%;
+
+  --theme-logo-main-url: url('/images/logo/logo-main_summer.png');
+  --theme-logo-footer-url: url('/images/logo/logo-footer_summer.png');
+
+  --color-star-filled: 47 85% 54%;
+
+}
+
+[data-theme="autumn"] {
+ 
+  --color-main: 24 100% 70%;
+  --color-accent:  19 100% 47%;
+  --color-secondary:  35 86% 65%;
+  --color-secondary-light:  29 100% 88%;
+
+  --color-text-accent:  173 100% 7%;
+  --color-text-accent-light:  174 100% 14%;
+  --color-text-base:  0 0% 40%;
+  
+  --color-background:  0 0% 100%;
+
+  --theme-logo-main-url: url('/images/logo/logo-main_autumn.png');
+  --theme-logo-footer-url: url('/images/logo/logo-footer_autumn.png');
+
+  --color-star-filled: 47 85% 54%;
+
+
+}
+
+@layer base {
+
+  .background-spring {
+    background-color: var(--spring);
+  }
+  .background-summer {
+    background-color: var(--summer);
+  }
+  .background-autumn {
+    background-color: var(--autumn);
+  }
+  .background-winter {
+    background-color: var(--winter);
+  }
+
+  h1 {
+    /* Applica la classe font-display definita in tailwind.config.js */
+    @apply font-display text-4xl-semi text-theme-text-accent-light; 
+    letter-spacing: 0.05em;
+
+      strong {
+        @apply text-theme-accent;
+      }
+
+  }
+
+   h2 {
+    /* Applica la classe font-display definita in tailwind.config.js */
+    @apply font-display text-2xl-semi text-theme-text-accent;
+    letter-spacing: 0.05em;
+    strong {
+        @apply text-theme-main;
+      }
+
+  }
+
+   h3 {
+     @apply text-large-semi text-theme-text-accent;
+    letter-spacing: 0.05em;
+     strong {
+        @apply text-theme-accent;
+      }
+  }
+
+  h4 {
+    /* Applica la classe font-display definita in tailwind.config.js */
+    @apply text-large-semi text-theme-text-accent-light;
+    letter-spacing: 0.05em;
+     strong {
+        @apply text-theme-main;
+      }
+  }
+
+  p{
+    @apply text-base-regular text-theme-text-base;
+     strong {
+        @apply text-theme-main;
+      }
+
+  }
+
+  
+   .h2-style {
+    @apply font-display text-2xl-semi;
+  }
+
+
+  .h3-style {
+    @apply font-sans text-large-semi;
+  }
+
+   .h4-style {
+    @apply text-large-semi text-theme-text-accent-light;
+    
+  }
+
+
+  .primary-btn {
+    @apply inline-flex items-center rounded-full border border-white/30 shadow-none bg-theme-accent hover:bg-theme-secondary-light px-8 py-3 text-center text-base font-medium text-white transition-colors !important;
+  }
+  .secondary-btn {
+    @apply inline-flex items-center rounded-full border border-transparent shadow-none bg-theme-main hover:bg-theme-accent px-8 py-3 text-center text-base font-medium text-white transition-colors !important;
+  }
+  
+
+  .blog-post
+  {
+  h2 {
+    /* Applica la classe font-display definita in tailwind.config.js */
+    @apply font-display;
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+    padding-bottom: 0.8rem;
+
+  }
+  
+
+  h3 {
+    /* Applica la classe font-display definita in tailwind.config.js */
+    @apply text-[24px] font-normal font-display;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    padding-bottom: 0.8rem;
+
+    }
+  }
+
+
+
+}
+
+@media (max-width: 640px) {
+
+  .blog-post
+  {
+    h2 {
+      font-size: 1.2rem; /* più piccolo su mobile */
+    }
+
+   h3 {
+    font-size: 1rem; /* più piccolo su mobile */
+    }
+
+  }
+
+}
+
+
 
 @layer utilities {
   /* Chrome, Safari and Opera */
@@ -47,9 +309,99 @@
   input[type="search"]::-webkit-search-results-decoration {
     -webkit-appearance: none;
   }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
+  }
+}
+
+@keyframes gradientBorderMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @layer components {
+
+  .highlight {
+  background-image: linear-gradient(to top, white 40%, transparent 40%);; /*linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);*/
+  background-repeat: no-repeat;
+  background-size: 100% 100%; /* 100% larghezza, 40% altezza */
+  background-position: 0 90%; /* Posizionato in basso */
+}
+
+.mark {
+	--mark-color: hsl(var(--color-secondary)/ 0.5);
+	--mark-skew: 0.25em;
+	--mark-height: 1em;
+	--mark-overlap: 0.3em;
+
+	margin-inline: calc(var(--mark-overlap) * -1);
+	padding-inline: var(--mark-overlap);
+
+	background-color: transparent;
+	background-image:
+		linear-gradient(
+			to bottom right,
+			transparent 50%,
+			var(--mark-color) 50%
+		),
+		linear-gradient(
+			var(--mark-color),
+			var(--mark-color)
+		),
+		linear-gradient(
+			to top left,
+			transparent 50%,
+			var(--mark-color) 50%
+		)
+	;
+	background-size:
+		var(--mark-skew) var(--mark-height),
+		calc(100% - var(--mark-skew) * 2 + 1px) var(--mark-height),
+		var(--mark-skew) var(--mark-height)
+	;
+	background-position:
+		left center,
+		center,
+		right center
+	;
+	background-repeat: no-repeat;
+	color: inherit;
+}
+
+table
+{
+  thead{
+    @apply border-none ;
+
+    th
+    {
+      @apply bg-white;
+    }
+  }
+  
+  tbody{
+    @apply !border-0 ;
+
+    tr{
+      @apply !border-b-0 bg-transparent hover:!bg-transparent;
+    }
+  }
+}
+ 
+
   .content-container {
     @apply max-w-[1440px] w-full mx-auto px-6;
   }
@@ -58,8 +410,22 @@
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
   }
 
+.time-picker::-webkit-calendar-picker-indicator{
+  display: none;
+
+}
+
+
   .text-xsmall-regular {
     @apply text-[10px] leading-4 font-normal;
+  }
+
+  .text-xsmall-semi {
+    @apply text-[10px] leading-4 font-semibold;
+  }
+
+  .text-xsmall-bold {
+    @apply text-[10px] leading-4 font-bold;
   }
 
   .text-small-regular {
@@ -70,20 +436,33 @@
     @apply text-xs leading-5 font-semibold;
   }
 
+   .text-small-bold {
+    @apply text-xs leading-5 font-bold;
+  }
+
   .text-base-regular {
-    @apply text-sm leading-6 font-normal;
-  }
-
-  .text-base-semi {
-    @apply text-sm leading-6 font-semibold;
-  }
-
-  .text-large-regular {
     @apply text-base leading-6 font-normal;
   }
 
-  .text-large-semi {
+  .text-base-semi {
     @apply text-base leading-6 font-semibold;
+  }
+
+   .text-base-bold {
+    @apply text-base leading-6 font-bold;
+
+  }
+
+  .text-large-regular {
+    @apply text-lg leading-6 font-normal;
+  }
+
+  .text-large-semi {
+    @apply text-lg leading-6 font-semibold;
+  }
+
+  .text-large-bold {
+    @apply text-lg leading-6 font-bold;
   }
 
   .text-xl-regular {
@@ -94,6 +473,10 @@
     @apply text-2xl leading-[36px] font-semibold;
   }
 
+  .text-xl-bold {
+    @apply text-2xl leading-[36px] font-bold;
+  }
+
   .text-2xl-regular {
     @apply text-[30px] leading-[48px] font-normal;
   }
@@ -102,11 +485,31 @@
     @apply text-[30px] leading-[48px] font-semibold;
   }
 
+  .text-2xl-bold {
+    @apply text-[30px] leading-[48px] font-bold;
+  }
+
   .text-3xl-regular {
     @apply text-[32px] leading-[44px] font-normal;
   }
 
   .text-3xl-semi {
     @apply text-[32px] leading-[44px] font-semibold;
+  }
+
+  .text-3xl-bold {
+    @apply text-[36px] leading-[44px] font-bold;
+  }
+
+  .text-4xl-regular {
+    @apply text-[36px] leading-[44px] font-normal;
+  }
+
+  .text-4xl-semi {
+    @apply text-[36px] leading-[44px] font-semibold;
+  }
+
+  .text-4xl-bold {
+    @apply text-[36px] leading-[44px] font-bold;
   }
 }

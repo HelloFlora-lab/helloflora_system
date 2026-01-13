@@ -6,14 +6,14 @@ import ProductActions from "@modules/products/components/product-actions"
  * Fetches real time pricing for a product and renders the product actions component.
  */
 export default async function ProductActionsWrapper({
-  id,
+  handle,
   region,
 }: {
-  id: string
+  handle: string
   region: HttpTypes.StoreRegion
 }) {
   const product = await listProducts({
-    queryParams: { id: [id] },
+    queryParams: { handle: [handle] },
     regionId: region.id,
   }).then(({ response }) => response.products[0])
 
