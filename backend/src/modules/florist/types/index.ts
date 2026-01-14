@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { createFindParams } from "@medusajs/medusa/api/utils/validators";
+
 
 export enum FloristStatus {
   PENDING = "pending",
@@ -6,44 +8,38 @@ export enum FloristStatus {
   REJECTED = "rejected"
 }
 
-export interface FloristDTO {
-  id: string;
-  name: string;
-  
-  company_name?: string;
-  
-  address: string;
-  city: string;
-  county: string;
-  country: string;
-  zip_code: string;
 
-  location?: {
-    lat: number;
-    lng: number;
-  };
-  
-  main_phone: string;
-  second_phone?: string;
-  email?: string;
-  website?: string;
-  
-  note?: string;
+// Zod schema for FloristDTO
+export const FloristDTOSchema = z.object({
 
-  close_time?: string,
-  is_open?: boolean;
+  id: z.string(),
+  name: z.string(),
+  company_name: z.string().optional(),
+  address: z.string(),
+  city: z.string(),
+  county: z.string(),
+  country: z.string(),
+  zip_code: z.string(),
+  location: z.object({
+    lat: z.number(),
+    lng: z.number(),
+  }).optional(),
+  main_phone: z.string(),
+  second_phone: z.string().optional(),
+  email: z.string().optional(),
+  website: z.string().optional(),
+  note: z.string().optional(),
+  close_time: z.string().optional(),
+  is_open: z.boolean().optional(),
+  image_url: z.string().optional(),
+  iban: z.string().optional(),
+  rate: z.number(),
+  florist_status: z.nativeEnum(FloristStatus),
+  created_at: z.date(),
+  updated_at: z.date(),
+  // products: z.array(ProductDTOSchema).optional(), // Uncomment and define ProductDTOSchema if needed
 
-  image_url?: string;
-  iban?: string,
-  rate: number,
-  
-  florist_status: FloristStatus;
-
-  created_at: Date;
-  updated_at: Date;
-
-  //products?: ProductDTO[];
-}
+});
 
 export const CreateFloristSchema = z.object({
 
@@ -76,3 +72,12 @@ export const CreateFloristSchema = z.object({
     florist_status: z.nativeEnum(FloristStatus).optional().default(FloristStatus.PENDING),
 
 });
+
+
+export type GetFloristDTO = z.infer<typeof FloristDTOSchema>;
+
+export const UpdateFloristSchema = CreateFloristSchema.partial();
+export type UpdateFloristDTO = z.infer<typeof UpdateFloristSchema>;
+
+export const DeleteFloristsSchema = createFindParams()
+export type DeleteFloristsDTO = z.infer<typeof DeleteFloristsSchema>;
