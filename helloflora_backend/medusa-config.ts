@@ -12,7 +12,7 @@ import {
   JWT_SECRET,
   REDIS_URL,
   SENDGRID_API_KEY,
-  SENDGRID_FROM_EMAIL,
+  SENDGRID_FROM,
   SHOULD_DISABLE_ADMIN,
   STORE_CORS,
   STRIPE_API_KEY,
@@ -92,18 +92,18 @@ module.exports = defineConfig({
             }] : []),
 
 
-        ...(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL || SLACK_WEBHOOK_URL && SLACK_ADMIN_URL ? [{
+        ...(SENDGRID_API_KEY && SENDGRID_FROM || SLACK_WEBHOOK_URL && SLACK_ADMIN_URL ? [{
                   key: Modules.NOTIFICATION,
                   resolve: '@medusajs/notification',
                   options: {
                     providers: [
-                      ...(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL ? [{
+                      ...(SENDGRID_API_KEY && SENDGRID_FROM ? [{
                         resolve: '@medusajs/notification-sendgrid',
                         id: 'sendgrid',
                         options: {
                           channels: ['email'],
                           api_key: SENDGRID_API_KEY,
-                          from: SENDGRID_FROM_EMAIL,
+                          from: SENDGRID_FROM,
                         }
                       }] : []),
                       ,
@@ -116,16 +116,7 @@ module.exports = defineConfig({
                             admin_url: SLACK_ADMIN_URL
                             },
                       }] : []),
-                      ,
-
-                       {resolve: "@medusajs/medusa/notification-local",
-                        id: "local",
-                        options: {
-                          name: "Local Notification Provider",
-                          channels: ["feed"],
-                        },
-                      }
-                                
+                               
                     ]
                   }
                 }] : []
