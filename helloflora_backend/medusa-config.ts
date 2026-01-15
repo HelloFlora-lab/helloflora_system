@@ -111,8 +111,8 @@ module.exports = defineConfig({
                           id: 'slack',
                           options: {
                             channels: ["slack"],
-                            webhook_url: process.env.SLACK_WEBHOOK_URL,
-                            admin_url: process.env.SLACK_ADMIN_URL
+                            webhook_url: SLACK_WEBHOOK_URL,
+                            admin_url: SLACK_ADMIN_URL
                             },
                       }] : []),
                       ,
