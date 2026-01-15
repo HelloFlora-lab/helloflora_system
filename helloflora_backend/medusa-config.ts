@@ -65,7 +65,6 @@ module.exports = defineConfig({
             ]
           }
         },
-
         ...(REDIS_URL ? [
           {
             key: Modules.CACHE,
@@ -91,7 +90,6 @@ module.exports = defineConfig({
               }
             }] : []),
 
-
            ...(SENDGRID_API_KEY && SENDGRID_FROM || SLACK_WEBHOOK_URL && SLACK_ADMIN_URL ? [{
                  key: Modules.NOTIFICATION,
                  resolve: '@medusajs/notification',
@@ -116,7 +114,7 @@ module.exports = defineConfig({
                             admin_url: SLACK_ADMIN_URL
                             },
                       }] : []),
-                      
+
                       {resolve: "@medusajs/medusa/notification-local",
                         id: "local",
                         options: {
@@ -128,7 +126,24 @@ module.exports = defineConfig({
                      
                    ]
                  }
-               }] : []),
+            }] : []),
+
+        ...(STRIPE_API_KEY && STRIPE_WEBHOOK_SECRET ? [{
+              key: Modules.PAYMENT,
+              resolve: '@medusajs/payment',
+              options: {
+                providers: [
+                  {
+                    resolve: '@medusajs/payment-stripe',
+                    id: 'stripe',
+                    options: {
+                      apiKey: STRIPE_API_KEY,
+                      webhookSecret: STRIPE_WEBHOOK_SECRET,
+                    },
+                  },
+                ],
+              },
+            }] : []),
 
 
 

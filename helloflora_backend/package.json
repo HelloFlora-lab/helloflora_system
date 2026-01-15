@@ -29,6 +29,7 @@
     "@medusajs/medusa": "2.12.5",
     "@medusajs/notification": "^2.12.5",
     "@medusajs/notification-sendgrid": "^2.12.5",
+    "@medusajs/payment-stripe": "^2.12.5",
     "@medusajs/workflow-engine-redis": "^2.12.5",
     "minio": "^8.0.6"
   },

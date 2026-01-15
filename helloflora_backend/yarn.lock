@@ -2273,7 +2273,7 @@
   resolved "https://registry.yarnpkg.com/@medusajs/order/-/order-2.12.5.tgz#150519623c8a3b381157abf2b600da5840e451c8"
   integrity sha512-XBOXgr2YdIrIkwrlFOch88pk8lX8QIGzlN3B/XBtUV3jOTQiMN4eX9FfEngmg5aAOFMSi7fWsZyW5raXF+7IlA==
 
-"@medusajs/payment-stripe@2.12.5":
+"@medusajs/payment-stripe@2.12.5", "@medusajs/payment-stripe@^2.12.5":
   version "2.12.5"
   resolved "https://registry.yarnpkg.com/@medusajs/payment-stripe/-/payment-stripe-2.12.5.tgz#189e7169f72e808ce9f19140c068005868060f16"
   integrity sha512-3bQYInRmzwZEr1Qzbgi1qAs1cdw0slkc/q0vopBjTBjgTHcFakEs+mKDSyDonhmpgNwLiN/n4CudKm4511aKPg==
