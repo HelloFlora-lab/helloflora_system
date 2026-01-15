@@ -91,6 +91,28 @@ module.exports = defineConfig({
               }
             }] : []),
 
+            
+           ...(SENDGRID_API_KEY && SENDGRID_FROM  ? [{
+                 key: Modules.NOTIFICATION,
+                 resolve: '@medusajs/notification',
+                 options: {
+                   providers: [
+                     ...(SENDGRID_API_KEY && SENDGRID_FROM ? [{
+                       resolve: '@medusajs/notification-sendgrid',
+                       id: 'sendgrid',
+                       options: {
+                         channels: ['email'],
+                         api_key: SENDGRID_API_KEY,
+                         from: SENDGRID_FROM,
+                       }
+                     }] : []),
+                     
+                   ]
+                 }
+               }] : []),
+
+
+
 
    ]
 })
