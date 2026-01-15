@@ -1,4 +1,4 @@
-import { loadEnv, defineConfig } from '@medusajs/framework/utils'
+import { loadEnv, defineConfig, Modules } from '@medusajs/framework/utils'
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
@@ -37,5 +37,34 @@ module.exports = defineConfig({
       jwtSecret: JWT_SECRET || "supersecret",
       cookieSecret: COOKIE_SECRET || "supersecret",
     }
-  }
+  },
+   modules: [
+
+     {
+          key: Modules.FILE,
+          resolve: '@medusajs/file',
+          options: {
+            providers: [
+              ...(MINIO_ENDPOINT && MINIO_ACCESS_KEY && MINIO_SECRET_KEY ? [{
+                resolve: './src/modules/minio-file',
+                id: 'minio',
+                options: {
+                  endPoint: MINIO_ENDPOINT,
+                  accessKey: MINIO_ACCESS_KEY,
+                  secretKey: MINIO_SECRET_KEY,
+                  bucket: MINIO_BUCKET // Optional, default: medusa-media
+                }
+              }] : [{
+                resolve: '@medusajs/file-local',
+                id: 'local',
+                options: {
+                  upload_dir: 'static',
+                  backend_url: `${BACKEND_URL}/static`
+                }
+              }])
+            ]
+          }
+        },
+
+   ]
 })
