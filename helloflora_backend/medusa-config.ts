@@ -91,33 +91,6 @@ module.exports = defineConfig({
               }
             }] : []),
 
-             ...(SLACK_WEBHOOK_URL && SLACK_ADMIN_URL ? [{
-                  key: Modules.NOTIFICATION,
-                  resolve: '@medusajs/notification',
-                  options: {
-                    providers: [
-                      
-                      
-                      ...(SLACK_WEBHOOK_URL && SLACK_ADMIN_URL ? [{
-                          resolve: './src/modules/slack',
-                          id: 'slack',
-                          options: {
-                            channels: ["slack"],
-                            webhook_url: process.env.SLACK_WEBHOOK_URL,
-                            admin_url: process.env.SLACK_ADMIN_URL
-                            },
-                      }] : []),
-                      ,
-
-                      
-                                
-                    ]
-                  }
-                }] : []
-              ),
-
-
-
 
    ]
 })
