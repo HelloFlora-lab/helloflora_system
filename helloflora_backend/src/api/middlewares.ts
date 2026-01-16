@@ -6,7 +6,9 @@ import { GetStoreReviewsSchema } from "./store/reviews/route";
 import { GetAdminReviewsSchema } from "./admin/reviews/route";
 import { PostAdminUpdateReviewsStatusSchema } from "./admin/reviews/status/validation-schemas";
 
-
+import { adminFloristSchema } from "./admin/florists/florist-validation-schemas"
+import { PostNearbyFloristsSchema } from "./store/florist-check/validation-schemas";
+import { PostStoreNewsletterSchema } from "./store/newsletter-signup/validation-schemas";
 
 
 export default defineMiddlewares({
@@ -89,6 +91,75 @@ export default defineMiddlewares({
       ],
     },
 
+
+
+     // --- FLORISTS ----
+    {
+      matcher: "/admin/florists",
+      method: ["GET"],
+      middlewares: [
+        validateAndTransformQuery(adminFloristSchema, {
+          //isList: true,
+          defaults: [
+            "id",
+            "name",
+            "company_name",
+            "address",
+            "city",
+            "county",
+            "country",
+            "zip_code",
+            "main_phone",
+            "second_phone",
+            "email",
+            "note",
+            "close_time",
+            "is_open",
+            "image_url",
+            "iban",
+            "rate",
+            "florist_status",
+            "created_at",
+            "updated_at",
+          ],
+        }),
+      ],
+    },
+    /*
+    {
+      matcher: "/admin/florists/status",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(PostFloristsStatusSchema),
+      ],
+    },
+
+     {
+      matcher: "/admin/florists/:id",
+      method: ["POST"],
+      middlewares: [
+        validateAndTransformBody(UpdateFloristSchema),
+      ],
+    },
+*/
+
+
+    {
+      method: ["POST"], 
+      matcher: "/store/florist-check",
+      middlewares: [
+        validateAndTransformBody(PostNearbyFloristsSchema),
+      ],
+    },
+
+   
+    {
+      method: ["POST"], 
+      matcher: "/store/newsletter-subscriptions",
+      middlewares: [
+        validateAndTransformBody(PostStoreNewsletterSchema),
+      ],
+    },
 
 
     

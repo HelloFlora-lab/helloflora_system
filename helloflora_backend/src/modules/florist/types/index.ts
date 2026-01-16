@@ -76,6 +76,8 @@ export const CreateFloristSchema = z.object({
 
 export type GetFloristDTO = z.infer<typeof FloristDTOSchema>;
 
+export type CreateFloristDTO = z.infer<typeof CreateFloristSchema>;
+
 export const UpdateFloristSchema = CreateFloristSchema.partial();
 export type UpdateFloristDTO = z.infer<typeof UpdateFloristSchema>;
 
